@@ -4,22 +4,20 @@ local TPS = game:GetService("TeleportService")
 local Api = "https://games.roblox.com/v1/games/"
 
 local _place,_id = game.PlaceId, game.JobId
--- По возрастанию для маленького количества игроков, по уменьшению для большего количества
-local _servers = Api.._place.."/servers/Public?sortOrder=Asc&limit=1"
+-- Asc for lowest player count, Desc for highest player count
+local _servers = Api.._place.."/servers/Public?sortOrder=Asc&limit=10"
 function ListServers(cursor)
    local Raw = game:HttpGet(_servers .. ((cursor and "&cursor="..cursor) or ""))
    return Http:JSONDecode(Raw)
 end
 
-time_to_wait = 2 --seconds
+time_to_wait = 5 --seconds
 
--- выбирает рандом сервер
+-- choose a random server and join every 2 minutes
 while wait(time_to_wait) do
-   --фризит когда активируешь скрипт вроде, ну или я не ебу хули
+   --freeze player before teleporting to prevent synapse crash?
    Player.Character.HumanoidRootPart.Anchored = true
    local Servers = ListServers()
-   local Server = Servers.data[math.random(2,#Servers.data)]
+   local Server = Servers.data[math.random(1,#Servers.data)]
    TPS:TeleportToPlaceInstance(_place, Server.id, Player)
 end
-
--- by tg en3gma если чет не работает то пишите
