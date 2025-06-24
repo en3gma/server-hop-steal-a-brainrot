@@ -5,7 +5,7 @@ local Api = "https://games.roblox.com/v1/games/"
 
 local _place,_id = game.PlaceId, game.JobId
 -- По возрастанию для маленького количества игроков, по уменьшению для большего количества
-local _servers = Api.._place.."/servers/Public?sortOrder=Asc&limit=10"
+local _servers = Api.._place.."/servers/Public?sortOrder=Asc&limit=1"
 function ListServers(cursor)
    local Raw = game:HttpGet(_servers .. ((cursor and "&cursor="..cursor) or ""))
    return Http:JSONDecode(Raw)
